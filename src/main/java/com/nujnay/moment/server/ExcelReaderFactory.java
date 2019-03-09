@@ -35,7 +35,7 @@ public class ExcelReaderFactory {
         ExcelTypeEnum excelTypeEnum = valueOf(inputStream);
         ExcelReader reader = new ExcelReader(inputStream, excelTypeEnum, null, listener);
         reader.read(new com.alibaba.excel.metadata.Sheet(1, 1, clazz));
-        System.out.println("the inputStream is null! "+((ExcelListener) listener).getData().size());
+        System.out.println("the inputStream is null! " + ((ExcelListener) listener).getData().size());
         return (List<T>) ((ExcelListener) listener).getData();
     }
 
@@ -52,13 +52,13 @@ public class ExcelReaderFactory {
             ExcelWriter writer = new ExcelWriter(out, ExcelTypeEnum.XLSX);
             //写第一个sheet,  有模型映射关系
             Class t = list.get(0).getClass();
-//            Class t2 = listUser.get(0).getClass();
+            Class t2 = listUser.get(0).getClass();
             com.alibaba.excel.metadata.Sheet sheet = new com.alibaba.excel.metadata.Sheet(1, 0, t);
-//            com.alibaba.excel.metadata.Sheet sheet2 = new com.alibaba.excel.metadata.Sheet(2, 1, t2);
+            com.alibaba.excel.metadata.Sheet sheet2 = new com.alibaba.excel.metadata.Sheet(2, 1, t2);
             sheet.setSheetName(sheetName);
-//            sheet2.setSheetName(sheetName2);
+            sheet2.setSheetName(sheetName2);
             writer.write(list, sheet);
-//            writer.write(listUser, sheet2);
+            writer.write(listUser, sheet2);
             writer.finish();
         } catch (Exception e) {
             e.printStackTrace();
