@@ -39,14 +39,14 @@ public class ExcelOperation {
     static File filecsv;
 
     public static void main(String str[]) {
-        try {
-            excelReadOperation();
-            csvReadOperation1();
-            excelWriteOperation();
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            excelReadOperation();
+//            csvReadOperation1();
+//            excelWriteOperation();
+//        } catch (
+//                IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public ExcelOperation(String mFileExcel, String fileCsv, String fileResult) {
@@ -317,19 +317,7 @@ public class ExcelOperation {
             ResultInfo resultInfo = listResultInfo.get(i);
             for (CsvRow row : csv.getRows()) {
                 System.out.println("Read line: " + row);
-                System.out.println("First column of line: " + row.getField(0));
-                if (resultInfo.getUserId().equals(row.getField(0))) {
-                    if (row.getOriginalLineNumber() != 1) {
-                        resultInfo.setUserId(row.getField(0));
-                        resultInfo.setUserPhone(row.getField(1));
-                        resultInfo.setUserName(row.getField(2));
-                        resultInfo.setRegistTime(row.getField(3));
-                        resultInfo.setUserlevel(row.getField(4));
-                        resultInfo.setAppName(row.getField(10));
-                        listResultInfo.add(resultInfo);
-                    }
-                }
-
+//                System.out.println("First column of line: " + row.getField(0));
                 if (i == 0 && row.getOriginalLineNumber() > 1) {
                     ResultInfoUser resultInfoUser = new ResultInfoUser();
                     resultInfoUser.setUserAccount(row.getField(0));
@@ -341,6 +329,20 @@ public class ExcelOperation {
                     resultInfoUser.setUserLevel(row.getField(4));
                     listResultInfoUser.add(resultInfoUser);
                 }
+
+                if (resultInfo.getUserId().equals(row.getField(0))) {
+                    if (row.getOriginalLineNumber() != 1) {
+                        resultInfo.setUserId(row.getField(0));
+                        resultInfo.setUserPhone(row.getField(1));
+                        resultInfo.setUserName(row.getField(2));
+                        resultInfo.setRegistTime(row.getField(3));
+                        resultInfo.setUserlevel(row.getField(4));
+                        resultInfo.setAppName(row.getField(10));
+                        listResultInfo.add(resultInfo);
+                    }
+                    continue;
+                }
+
 
             }
         }
