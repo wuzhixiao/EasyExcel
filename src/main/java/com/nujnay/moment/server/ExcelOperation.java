@@ -23,6 +23,7 @@ import java.util.List;
 public class ExcelOperation {
     static List<LoanInfo> listLoanInfo = new ArrayList<>();
     static List<ResultInfo> listResultInfo = new ArrayList<>();
+    static List<ResultInfo> listResultInfo2 = new ArrayList<>();
     static List<ResultInfoUser> listResultInfoUser = new ArrayList<>();
     static List<ResultInfoNewUser> listResultInfoNewUser = new ArrayList<>();
     static List<ResultInfoProduct> listResultInfoProduct = new ArrayList<>();
@@ -309,14 +310,17 @@ public class ExcelOperation {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
         CsvReader csvReader = new CsvReader();
         CsvContainer csv = csvReader.read(filecsv, StandardCharsets.UTF_8);
-        System.out.println("wzxxxxxxxxx listResultInfoUser222 " + listResultInfo.size());
+//        System.out.println("wzxxxxxxxxx listResultInfoUser222 " + listResultInfo.size());
         System.out.println("wzxxxxxxxxx listResultInfoUser " + csv.getRows().size());
 
+        System.out.println("wzxxxxxxxxx listResultInfo123o  " + listResultInfo.size());
 
         for (int i = 0; i < listResultInfo.size(); i++) {
             ResultInfo resultInfo = listResultInfo.get(i);
-            for (CsvRow row : csv.getRows()) {
-                System.out.println("Read line: " + row);
+            for (int j = 0; j < csv.getRows().size(); j++) {
+                CsvRow row = csv.getRows().get(j);
+//                System.out.println("listResultInfo: " + i + " CsvRow " + j);
+//                System.out.println("Read line: " + row);
 //                System.out.println("First column of line: " + row.getField(0));
                 if (i == 0 && row.getOriginalLineNumber() > 1) {
                     ResultInfoUser resultInfoUser = new ResultInfoUser();
@@ -338,7 +342,7 @@ public class ExcelOperation {
                         resultInfo.setRegistTime(row.getField(3));
                         resultInfo.setUserlevel(row.getField(4));
                         resultInfo.setAppName(row.getField(10));
-                        listResultInfo.add(resultInfo);
+                        listResultInfo2.add(resultInfo);
                     }
                     continue;
                 }
@@ -348,6 +352,7 @@ public class ExcelOperation {
         }
 
 
+        listResultInfo.addAll(listResultInfo2);
     }
 
     public static void csvReadOperation2() throws IOException {
