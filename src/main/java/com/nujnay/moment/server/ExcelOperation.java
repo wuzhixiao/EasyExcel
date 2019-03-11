@@ -57,7 +57,7 @@ public class ExcelOperation {
         this.fileCsv = fileCsv;
         this.fileResult = fileResult;
         try {
-            fileMovetoStr = ResourceUtils.getURL("classpath:").getPath() + "\\system1\\";
+            fileMovetoStr = ResourceUtils.getURL("classpath:").getPath() + "\\systemboth\\";
             resourcemove = fileMovetoStr + "合成" + System.currentTimeMillis() + fileResult.substring(fileResult.lastIndexOf(".") - 1);
             excelmove = fileMovetoStr + System.currentTimeMillis() + mFileExcel.substring(mFileExcel.lastIndexOf(".") - 2);
             csvemove = fileMovetoStr + System.currentTimeMillis() + fileCsv.substring(fileCsv.lastIndexOf(".") - 13);
@@ -80,6 +80,12 @@ public class ExcelOperation {
             File resourceMoveFile = new File(resourcemove);
             File excelMoveFile = new File(excelmove);
             File csvMoveFile = new File(csvemove);
+            File fileMovetoStrF = new File(fileMovetoStr);
+
+            System.out.println("wzxxxxxx 是否存在 " + resourceMoveFile.exists());
+            if (!fileMovetoStrF.exists()) {
+                fileMovetoStrF.mkdirs();
+            }
 
             FileUtils.cutFile(file, resourceMoveFile, false);
             FileUtils.cutFile(fileloaninfo, excelMoveFile, true);
