@@ -7,12 +7,6 @@ import java.util.Date;
 
 public class ResultInfoNewUser extends BaseRowModel {
 
-//    @ExcelProperty(value = "数据来源")
-//    private long unit;
-
-    @ExcelProperty(value = "单位（万卢比）", index = 1)
-    private String unit;
-
     @ExcelProperty(value = "注册时间", index = 2)
     private String registTime;
 
@@ -37,13 +31,6 @@ public class ResultInfoNewUser extends BaseRowModel {
     @ExcelProperty(value = "注册-放款转化率", index = 9)
     private String zcfkLv;
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
 
     public String getRegistTime() {
         return registTime;

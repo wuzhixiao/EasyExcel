@@ -14,6 +14,8 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -193,7 +195,9 @@ public class ExcelOperation {
                 resultInfo.setReturnMoneyAll(loanInfo.getReturnMoneyPrincipal() + loanInfo.getReturnMoneyRate() + loanInfo.getReturnMoneyService());
                 resultInfo.setReturnMoneyActual(loanInfo.getReturnMoneyPrincipal() + loanInfo.getReturnMoneyRate() + loanInfo.getReturnMoneyService() + loanInfo.getReturnMoneyPenalty());
                 listResultInfo.add(resultInfo);
+
             }
+
 
             System.out.println("wzxxxxxxxxxxxxxx listResultInfo " + listResultInfo.size());
 
@@ -207,6 +211,7 @@ public class ExcelOperation {
     public static void excelWriteOperation() throws IOException {
 //        InputStream inputStream = getInputStream();
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         if (file.exists()) {
             file.delete();
@@ -223,75 +228,123 @@ public class ExcelOperation {
         int i = 0;
 //        for (ResultInfoUser resultInfoUser : listResultInfoUser) {
         HashMap<String, ResultInfoUserInfo> resultInfoUserInfoHashMap = new HashMap<>();
-        for (ResultInfo resultInfo : listResultInfo) {
 
-            if (resultInfoUserInfoHashMap.containsKey(resultInfo.getUserId())) {
-                ResultInfoUserInfo resultInfoUserInfo = resultInfoUserInfoHashMap.get(resultInfo.getUserId());
-                resultInfoUserInfo.setDksqsuccessTimes(resultInfoUserInfo.getDksqsuccessTimes() + 1);
-                if (resultInfo.getLoanTime() != null) {
-
-                    resultInfoUserInfo.setDksqsuccessTimes(resultInfoUserInfo.getDksqsuccessTimes() + 1);
-
-                    if (resultInfoUserInfo.getmLoanDatas() == null) {
-                        List<ResultInfoUserInfo.LoanData> loanDatas = new ArrayList<>();
-                        resultInfoUserInfo.setDksqsuccessTimes(1);
-                        ResultInfoUserInfo.LoanData loanData1 = new ResultInfoUserInfo.LoanData();
-                        loanData1.setLoanSucc1(resultInfo.getLoanId() + "|" + resultInfo.getOrderRepaymentState() + "|" + resultInfo.getOverdueDays());
-                        loanData1.setDdkkstate(resultInfo.getOrderRepaymentState());
-                        loanData1.setDdkkstate(resultInfo.getOverdueDays() + "");
-                        loanDatas.add(loanData1);
-                        resultInfoUserInfo.setmLoanDatas(loanDatas);
-                    } else {
-                        List<ResultInfoUserInfo.LoanData> loanDatas = resultInfoUserInfo.getmLoanDatas();
+        for (int j = 0; j < listResultInfoNewUser.size(); j++) {
+            long newUserApplication = 0;
+            long newUserLoanNum = 0;
+            for (ResultInfo resultInfo : listResultInfo) {
+                if (j == 0) {
+                    if (resultInfoUserInfoHashMap.containsKey(resultInfo.getUserId())) {
+                        ResultInfoUserInfo resultInfoUserInfo = resultInfoUserInfoHashMap.get(resultInfo.getUserId());
                         resultInfoUserInfo.setDksqsuccessTimes(resultInfoUserInfo.getDksqsuccessTimes() + 1);
-                        ResultInfoUserInfo.LoanData loanData1 = new ResultInfoUserInfo.LoanData();
-                        loanData1.setLoanSucc1(resultInfo.getLoanId() + "|" + resultInfo.getOrderRepaymentState() + "|" + resultInfo.getOverdueDays());
-                        loanData1.setDdkkstate(resultInfo.getOrderRepaymentState());
-                        loanData1.setDdkkstate(resultInfo.getOverdueDays() + "");
-                        loanDatas.add(loanData1);
-                        resultInfoUserInfo.setmLoanDatas(loanDatas);
+                        if (resultInfo.getLoanTime() != null) {
+
+                            resultInfoUserInfo.setDksqsuccessTimes(resultInfoUserInfo.getDksqsuccessTimes() + 1);
+
+                            if (resultInfoUserInfo.getmLoanDatas() == null) {
+                                List<ResultInfoUserInfo.LoanData> loanDatas = new ArrayList<>();
+                                resultInfoUserInfo.setDksqsuccessTimes(1);
+                                ResultInfoUserInfo.LoanData loanData1 = new ResultInfoUserInfo.LoanData();
+                                loanData1.setLoanSucc1(resultInfo.getLoanId() + "|" + resultInfo.getOrderRepaymentState() + "|" + resultInfo.getOverdueDays());
+                                loanData1.setDdkkstate(resultInfo.getOrderRepaymentState());
+                                loanData1.setDdkkstate(resultInfo.getOverdueDays() + "");
+                                loanDatas.add(loanData1);
+                                resultInfoUserInfo.setmLoanDatas(loanDatas);
+                            } else {
+                                List<ResultInfoUserInfo.LoanData> loanDatas = resultInfoUserInfo.getmLoanDatas();
+                                resultInfoUserInfo.setDksqsuccessTimes(resultInfoUserInfo.getDksqsuccessTimes() + 1);
+                                ResultInfoUserInfo.LoanData loanData1 = new ResultInfoUserInfo.LoanData();
+                                loanData1.setLoanSucc1(resultInfo.getLoanId() + "|" + resultInfo.getOrderRepaymentState() + "|" + resultInfo.getOverdueDays());
+                                loanData1.setDdkkstate(resultInfo.getOrderRepaymentState());
+                                loanData1.setDdkkstate(resultInfo.getOverdueDays() + "");
+                                loanDatas.add(loanData1);
+                                resultInfoUserInfo.setmLoanDatas(loanDatas);
+                            }
+                        }
+
+                    } else {
+                        ResultInfoUserInfo resultInfoUserInfo = new ResultInfoUserInfo();
+                        resultInfoUserInfo.setDksqsuccessTimes(1);
+                        List<ResultInfoUserInfo.LoanData> loanDatas = new ArrayList<>();
+                        if (resultInfo.getLoanTime() != null) {
+                            resultInfoUserInfo.setDksqsuccessTimes(1);
+                            ResultInfoUserInfo.LoanData loanData = new ResultInfoUserInfo.LoanData();
+                            loanData.setLoanSucc1(resultInfo.getLoanId() + "|" + resultInfo.getOrderRepaymentState() + "|" + resultInfo.getOverdueDays());
+                            loanData.setDdkkstate(resultInfo.getOrderRepaymentState());
+                            loanData.setDdkkstate(resultInfo.getOverdueDays() + "");
+                            loanDatas.add(loanData);
+                            resultInfoUserInfo.setmLoanDatas(loanDatas);
+                        }
+
+                        resultInfoUserInfoHashMap.put(resultInfo.getUserId(), resultInfoUserInfo);
                     }
+
                 }
 
-            } else {
-                ResultInfoUserInfo resultInfoUserInfo = new ResultInfoUserInfo();
-                resultInfoUserInfo.setDksqsuccessTimes(1);
-                List<ResultInfoUserInfo.LoanData> loanDatas = new ArrayList<>();
-                if (resultInfo.getLoanTime() != null) {
-                    resultInfoUserInfo.setDksqsuccessTimes(1);
-                    ResultInfoUserInfo.LoanData loanData = new ResultInfoUserInfo.LoanData();
-                    loanData.setLoanSucc1(resultInfo.getLoanId() + "|" + resultInfo.getOrderRepaymentState() + "|" + resultInfo.getOverdueDays());
-                    loanData.setDdkkstate(resultInfo.getOrderRepaymentState());
-                    loanData.setDdkkstate(resultInfo.getOverdueDays() + "");
-                    loanDatas.add(loanData);
-                    resultInfoUserInfo.setmLoanDatas(loanDatas);
+
+                List<String> userIdList = new ArrayList<>();
+                boolean isHasUserId = false;
+                //新用户转化
+                if (dateStrCompare(resultInfo.getApplicationDate(), listResultInfoNewUser.get(j).getRegistDate()) == 2 &&
+                        dateStrCompare(resultInfo.getApplicationDate(), chageDate(resultInfo.getRegistTime())) == 2) {
+
+
+                    if (userIdList.size() > 0) {
+
+                        for (int k = 0; k < userIdList.size(); k++) {
+                            if (userIdList.get(k).equals(resultInfo.getUserId())) {
+                                isHasUserId = true;
+                            }
+                        }
+
+
+                        if (!true) {
+                            userIdList.add(resultInfo.getUserId());
+                            newUserApplication++;
+
+                            if (dateStrCompare(resultInfo.getApplicationDate(), resultInfo.getLoanDate()) == 2) {
+                                newUserLoanNum++;
+                            }
+                        }
+                        isHasUserId = false;
+
+
+                    } else {
+                        newUserApplication++;
+                        userIdList.add(resultInfo.getUserId());
+                        if (dateStrCompare(resultInfo.getApplicationDate(), resultInfo.getLoanDate()) == 2) {
+                            newUserLoanNum++;
+                        }
+                    }
+
+                }
+                System.out.println(newUserApplication + "  " + " newUserLoanNum  " + newUserLoanNum + " " + listResultInfoNewUser.get(j).getRegistPeopleNum());
+                listResultInfoNewUser.get(j).setSqNum(newUserApplication + "");
+                listResultInfoNewUser.get(j).setFkNum(newUserLoanNum + "");
+                if (newUserApplication != 0) {
+                    listResultInfoNewUser.get(j).setSqfkLv((((float) newUserLoanNum / (float) newUserApplication) * 100) + "%");
+                }
+                int registNum = Integer.valueOf(listResultInfoNewUser.get(j).getRegistPeopleNum());
+                if (newUserLoanNum != 0) {
+                    listResultInfoNewUser.get(j).setZcfkLv((((float) registNum / (float) newUserLoanNum) * 100) + "%");
                 }
 
-                resultInfoUserInfoHashMap.put(resultInfo.getUserId(), resultInfoUserInfo);
+                if (registNum != 0) {
+                    listResultInfoNewUser.get(j).setZcSqLv((((float) newUserApplication / (float) registNum) * 100) + "%");
+                }
+
+
             }
+
 
         }
 
 
-//        for (ResultInfoUser rsInfoUser : listResultInfoUser) {
-//            if (resultInfoUserInfoHashMap.containsKey(rsInfoUser.getUserAccount())) {
-//
-//                ResultInfoUserInfo resultInfoUserInfo = resultInfoUserInfoHashMap.get(rsInfoUser.getUserAccount());
-//                rsInfoUser.setDksqTimes(resultInfoUserInfo.getDksqTimes());
-//                rsInfoUser.setDksqsuccessTimes(resultInfoUserInfo.getDksqsuccessTimes());
-//                List<ResultInfoUserInfo.LoanData> loanDatas = resultInfoUserInfo.getmLoanDatas();
-//                StringBuffer buf = new StringBuffer("");
-//                if (loanDatas.size() > 0) {
-//                    for (int j = 0; j < loanDatas.size(); j++) {
-//                        buf.append(loanDatas.get(j).getLoanSucc1());
-//                    }
-//                }
-//                rsInfoUser.setLoanSucc1(buf + "");
-//            }
-//        }
-///"订单表", file, listResultInfo,
+//"订单表", file, listResultInfo,
 
-        ExcelReaderFactory.writeExcel("订单表", file, listResultInfo, "用户表", listResultInfoUser);
+
+        ExcelReaderFactory.writeExcel("订单表", file, listResultInfo, "用户表", listResultInfoUser,
+                "新用户转化分析", listResultInfoNewUser);
 
     }
 
@@ -305,6 +358,7 @@ public class ExcelOperation {
             System.out.println("First column of line: " + row.getField("用户编号"));
         }
     }
+
 
     public static void csvReadOperation1() throws IOException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -332,6 +386,13 @@ public class ExcelOperation {
                     resultInfoUser.setRegistPakage(row.getField(10));
                     resultInfoUser.setUserLevel(row.getField(4));
                     listResultInfoUser.add(resultInfoUser);
+
+                    ResultInfoNewUser resultInfoNewUser = new ResultInfoNewUser();
+                    resultInfoNewUser.setRegistTime(row.getField(3));
+                    resultInfoNewUser.setRegistDate(chageDate(row.getField(3)));
+                    resultInfoNewUser.setRegistPeopleNum(csv.getRows().size() + "");
+
+                    listResultInfoNewUser.add(resultInfoNewUser);
                 }
 
                 if (resultInfo.getUserId().equals(row.getField(0))) {
@@ -400,5 +461,17 @@ public class ExcelOperation {
                 }
             }
         }
+    }
+
+    private static String chageDate(String date) {
+        DateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            Date s = simpleDateFormat.parse(date);
+            return simpleDateFormat.format(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 }

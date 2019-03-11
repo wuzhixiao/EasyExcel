@@ -45,7 +45,9 @@ public class ExcelReaderFactory {
      * @param file 需要写入的Excel，格式为xlsx
      * @param list 写入Excel中的所有数据，继承于BaseRowModel
      */
-    public static void writeExcel(String sheetName, final File file, List<? extends BaseRowModel> list, String sheetName2, List<? extends BaseRowModel> listUser) {
+    public static void writeExcel(String sheetName, final File file, List<? extends BaseRowModel> list,
+                                  String sheetName2, List<? extends BaseRowModel> listUser,
+                                  String sheetName3, List<? extends BaseRowModel> listNewUser) {
         OutputStream out = null;
         try {
             out = new FileOutputStream(file);
@@ -53,12 +55,16 @@ public class ExcelReaderFactory {
             //写第一个sheet,  有模型映射关系
             Class t = list.get(0).getClass();
             Class t2 = listUser.get(0).getClass();
+            Class t3 = listNewUser.get(0).getClass();
             com.alibaba.excel.metadata.Sheet sheet = new com.alibaba.excel.metadata.Sheet(1, 0, t);
             com.alibaba.excel.metadata.Sheet sheet2 = new com.alibaba.excel.metadata.Sheet(2, 1, t2);
+            com.alibaba.excel.metadata.Sheet sheet3 = new com.alibaba.excel.metadata.Sheet(3, 1, t3);
             sheet.setSheetName(sheetName);
             sheet2.setSheetName(sheetName2);
+            sheet3.setSheetName(sheetName3);
             writer.write(list, sheet);
             writer.write(listUser, sheet2);
+            writer.write(listNewUser, sheet3);
             writer.finish();
         } catch (Exception e) {
             e.printStackTrace();
