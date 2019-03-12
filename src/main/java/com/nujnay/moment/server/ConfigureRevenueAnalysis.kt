@@ -43,6 +43,13 @@ fun configureRevebyeAnalysis(orderlist: ArrayList<ResultInfo>) {
         var fangkuanNum = 0
         var expiredNum = 0
         var rerpayedNum = 0
+        var repayedNormalNum = 0
+        var overdueNum = 0
+        var overdueRepayedNum = 0
+        var overdueNoRepayedNum = 0
+        var overdueS1 = 0
+        var overdueS1Repayed = 0
+        var overdueS1NoRepayed = 0
         for (resultInfo in entry.value) {
             a++
             if (resultInfo.loanTime != null) {
@@ -56,10 +63,54 @@ fun configureRevebyeAnalysis(orderlist: ArrayList<ResultInfo>) {
             if (resultInfo.settleTime != null) {
                 rerpayedNum++
             }
+            if (resultInfo.settleTime.before(resultInfo.returnMoneyshuldTime)) {
+                repayedNormalNum++
+            }
+            if (resultInfo.returnMoneyshuldTime != null) {
+                if (resultInfo.settleTime == null) {
+                    overdueNum++
+                    overdueRepayedNum++
+                    if (resultInfo.returnMoneyshuldTime.time < System.currentTimeMillis()) {
+                        overdueNoRepayedNum++
+                    }
+                } else {
+                    if (!resultInfo.settleTime.before(resultInfo.returnMoneyshuldTime)) {
+                        overdueNum++
+                        overdueRepayedNum++
+                    }
+                }
+            }
+            val overdue7 = resultInfo.returnMoneyshuldTime.time + 7 * 24 * 60 * 60 * 1000
+            if (resultInfo.settleTime != null) {
+                if (resultInfo.settleTime.time < overdue7) {
+                    if (resultInfo.settleTime.time > resultInfo.returnMoneyshuldTime.time) {
+                        overdueS1++
+                        overdueS1Repayed++
+                    }
+                }
+            } else {
+                if (resultInfo.returnMoneyshuldTime != null) {
+                    if (System.currentTimeMillis() < overdue7) {
+                        if (System.currentTimeMillis() > resultInfo.returnMoneyshuldTime.time) {
+                            overdueS1++
+                            overdueS1NoRepayed++
+                        }
+                    }
+                }
+            }
         }
         resultInfoProduct.fangkuanNum = fangkuanNum
         resultInfoProduct.daoqiNum = expiredNum
         resultInfoProduct.yihuanNum = rerpayedNum
+        resultInfoProduct.zckqNum = repayedNormalNum
+        resultInfoProduct.yuqiNum = overdueNum
+        resultInfoProduct.yuqiyihNum = overdueRepayedNum
+        resultInfoProduct.yuqiweihNum = overdueNoRepayedNum
+        resultInfoProduct.s1yuqinum = overdueS1
+        resultInfoProduct.s1yuqiyihNum = overdueS1Repayed
+        resultInfoProduct.s1yuqiweihNum = overdueS1NoRepayed
+        resultInfoProduct.yuqilv = resultInfoProduct.yuqiNum.toDouble() / resultInfoProduct.fangkuanNum.toDouble()
+        resultInfoProduct.yghzSum = resultInfoProduct.yuqiweihNum.toDouble() * 0.6 + (resultInfoProduct.yuqiweihNum.toDouble() - resultInfoProduct.s1yuqiweihNum.toDouble()) * 0.9
     }
     println("a:::$a")
 }

@@ -77,7 +77,7 @@ public class ResultInfoProduct extends BaseRowModel {
     private double yuqilv;
 
     @ExcelProperty(value = "预估坏账总量", index = 24)
-    private int yghzSum;
+    private double yghzSum;
 
     @ExcelProperty(value = "预估坏账率", index = 25)
     private String yghzLv;
@@ -264,11 +264,11 @@ public class ResultInfoProduct extends BaseRowModel {
         this.yuqilv = yuqilv;
     }
 
-    public int getYghzSum() {
+    public double getYghzSum() {
         return yghzSum;
     }
 
-    public void setYghzSum(int yghzSum) {
+    public void setYghzSum(double yghzSum) {
         this.yghzSum = yghzSum;
     }
 
