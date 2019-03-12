@@ -22,6 +22,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.nujnay.moment.server.ConfigureRevenueAnalysisKt.configureRevebyeAnalysis;
+
 public class ExcelOperation {
     static List<LoanInfo> listLoanInfo = new ArrayList<>();
     static List<ResultInfo> listResultInfo = new ArrayList<>();
@@ -331,7 +333,7 @@ public class ExcelOperation {
                     }
 
                 }
-                System.out.println(newUserApplication + "  " + " newUserLoanNum  " + newUserLoanNum + " " + listResultInfoNewUser.get(j).getRegistPeopleNum());
+//                System.out.println(newUserApplication + "  " + " newUserLoanNum  " + newUserLoanNum + " " + listResultInfoNewUser.get(j).getRegistPeopleNum());
                 listResultInfoNewUser.get(j).setSqNum(newUserApplication + "");
                 listResultInfoNewUser.get(j).setFkNum(newUserLoanNum + "");
                 if (newUserApplication != 0) {
@@ -355,7 +357,7 @@ public class ExcelOperation {
 
 //"订单表", file, listResultInfo,
 
-
+        configureRevebyeAnalysis((ArrayList<ResultInfo>) listResultInfo);
         ExcelReaderFactory.writeExcel("订单表", file, listResultInfo, "用户表", listResultInfoUser,
                 "新用户转化分析", listResultInfoNewUser);
 
