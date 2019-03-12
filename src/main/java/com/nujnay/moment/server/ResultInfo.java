@@ -406,5 +406,45 @@ public class ResultInfo extends BaseRowModel {
         this.apkVersion = apkVersion;
     }
 
-
+    @Override
+    public String toString() {
+        return "ResultInfo{" +
+                "unit='" + unit + '\'' +
+                ", loanId='" + loanId + '\'' +
+                ", stateNow='" + stateNow + '\'' +
+                ", orderRepaymentState='" + orderRepaymentState + '\'' +
+                ", userId='" + userId + '\'' +
+                ", applicationAmount=" + applicationAmount +
+                ", applicationdays=" + applicationdays +
+                ", rate=" + rate +
+                ", servicefee=" + servicefee +
+                ", loanAmountActual=" + loanAmountActual +
+                ", applicationTime=" + applicationTime +
+                ", applicationDate='" + applicationDate + '\'' +
+                ", loanTime=" + loanTime +
+                ", loanDate='" + loanDate + '\'' +
+                ", returnMoneyshuldTime=" + returnMoneyshuldTime +
+                ", returnMoneyshuldDate='" + returnMoneyshuldDate + '\'' +
+                ", returnMoneyAll=" + returnMoneyAll +
+                ", returnMoneyPrincipal=" + returnMoneyPrincipal +
+                ", returnMoneyRate=" + returnMoneyRate +
+                ", returnMoneyService=" + returnMoneyService +
+                ", returnMoneyPenalty=" + returnMoneyPenalty +
+                ", returnMoneyActual=" + returnMoneyActual +
+                ", returnMoneyAlready=" + returnMoneyAlready +
+                ", settleTime=" + settleTime +
+                ", settleDate='" + settleDate + '\'' +
+                ", overdueDays=" + overdueDays +
+                ", userlevel='" + userlevel + '\'' +
+                ", rejectStage='" + rejectStage + '\'' +
+                ", reasonRefusal='" + reasonRefusal + '\'' +
+                ", recruiterNow='" + recruiterNow + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userKTP='" + userKTP + '\'' +
+                ", registTime='" + registTime + '\'' +
+                ", appName='" + appName + '\'' +
+                ", apkVersion='" + apkVersion + '\'' +
+                '}';
+    }
 }
