@@ -93,6 +93,13 @@ public class ExcelOperation {
 
             ExcelController.fileResult = fileResult;
 
+            listLoanInfo.clear();
+            listResultInfo.clear();
+            listResultInfo2.clear();
+            listResultInfoUser.clear();
+            listResultInfoNewUser.clear();
+            listResultInfoProduct.clear();
+
             System.out.println("wzxxxxxxxxxxxxx成功wzxxxxxxxxxxxxx成功wzxxxxxxxxxxxxx成功wzxxxxxxxxxxxxx成功wzxxxxxxxxxxxxx成功 ");
         } catch (IOException e) {
             System.out.println("wzxxxxxxxxxxxxxx2344 " + e.toString());
