@@ -66,8 +66,10 @@ fun configureRevebyeAnalysis(orderlist: ArrayList<ResultInfo>): ArrayList<Result
             if (resultInfo.settleTime != null) {
                 rerpayedNum++
             }
-            if (resultInfo.settleTime.before(resultInfo.returnMoneyshuldTime)) {
-                repayedNormalNum++
+            if (resultInfo.settleTime != null) {
+                if (resultInfo.settleTime.before(resultInfo.returnMoneyshuldTime)) {
+                    repayedNormalNum++
+                }
             }
             if (resultInfo.returnMoneyshuldTime != null) {
                 if (resultInfo.settleTime == null) {
@@ -83,20 +85,22 @@ fun configureRevebyeAnalysis(orderlist: ArrayList<ResultInfo>): ArrayList<Result
                     }
                 }
             }
-            val overdue7 = resultInfo.returnMoneyshuldTime.time + 7 * 24 * 60 * 60 * 1000
-            if (resultInfo.settleTime != null) {
-                if (resultInfo.settleTime.time < overdue7) {
-                    if (resultInfo.settleTime.time > resultInfo.returnMoneyshuldTime.time) {
-                        overdueS1++
-                        overdueS1Repayed++
-                    }
-                }
-            } else {
-                if (resultInfo.returnMoneyshuldTime != null) {
-                    if (System.currentTimeMillis() < overdue7) {
-                        if (System.currentTimeMillis() > resultInfo.returnMoneyshuldTime.time) {
+            if (resultInfo.returnMoneyshuldTime != null) {
+                val overdue7 = resultInfo.returnMoneyshuldTime.time + 7 * 24 * 60 * 60 * 1000
+                if (resultInfo.settleTime != null) {
+                    if (resultInfo.settleTime.time < overdue7) {
+                        if (resultInfo.settleTime.time > resultInfo.returnMoneyshuldTime.time) {
                             overdueS1++
-                            overdueS1NoRepayed++
+                            overdueS1Repayed++
+                        }
+                    }
+                } else {
+                    if (resultInfo.returnMoneyshuldTime != null) {
+                        if (System.currentTimeMillis() < overdue7) {
+                            if (System.currentTimeMillis() > resultInfo.returnMoneyshuldTime.time) {
+                                overdueS1++
+                                overdueS1NoRepayed++
+                            }
                         }
                     }
                 }
