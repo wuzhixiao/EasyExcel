@@ -80,13 +80,13 @@ public class ResultInfoProduct extends BaseRowModel {
     private double yghzSum;
 
     @ExcelProperty(value = "预估坏账率", index = 25)
-    private String yghzLv;
+    private double yghzLv;
 
     @ExcelProperty(value = "预估单笔营业收入（仅到期应还费用不含逾期费用）", index = 26)
-    private int ygyingshou;
+    private double ygyingshou;
 
     @ExcelProperty(value = "预估总体营业收入（仅到期应还费用不含逾期费用）", index = 27)
-    private int ygyingshouSum;
+    private double ygyingshouSum;
 
     public String getUnit() {
         return unit;
@@ -272,27 +272,27 @@ public class ResultInfoProduct extends BaseRowModel {
         this.yghzSum = yghzSum;
     }
 
-    public String getYghzLv() {
+    public double getYghzLv() {
         return yghzLv;
     }
 
-    public void setYghzLv(String yghzLv) {
+    public void setYghzLv(double yghzLv) {
         this.yghzLv = yghzLv;
     }
 
-    public int getYgyingshou() {
+    public double getYgyingshou() {
         return ygyingshou;
     }
 
-    public void setYgyingshou(int ygyingshou) {
+    public void setYgyingshou(double ygyingshou) {
         this.ygyingshou = ygyingshou;
     }
 
-    public int getYgyingshouSum() {
+    public double getYgyingshouSum() {
         return ygyingshouSum;
     }
 
-    public void setYgyingshouSum(int ygyingshouSum) {
+    public void setYgyingshouSum(double ygyingshouSum) {
         this.ygyingshouSum = ygyingshouSum;
     }
 }

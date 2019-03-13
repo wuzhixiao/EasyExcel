@@ -137,7 +137,7 @@
 			// }
 			$.ajax({
 				type: "post",
-				url: "http://10.0.52.174:8089/upload",
+				url: "http://localhost:8089/upload",
 				data: formData,
 				contentType: false,
 				cache: false,
@@ -157,7 +157,7 @@
 			});
 		})
 		$("#download").click(function() {
-			let url = "http://10.0.52.174:8089/download";
+			let url = "http://localhost:8089/download";
 			window.location.href = url;
 		})
 	</script>

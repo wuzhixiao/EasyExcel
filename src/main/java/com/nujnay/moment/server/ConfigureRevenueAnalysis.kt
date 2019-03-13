@@ -111,6 +111,10 @@ fun configureRevebyeAnalysis(orderlist: ArrayList<ResultInfo>) {
         resultInfoProduct.s1yuqiweihNum = overdueS1NoRepayed
         resultInfoProduct.yuqilv = resultInfoProduct.yuqiNum.toDouble() / resultInfoProduct.fangkuanNum.toDouble()
         resultInfoProduct.yghzSum = resultInfoProduct.yuqiweihNum.toDouble() * 0.6 + (resultInfoProduct.yuqiweihNum.toDouble() - resultInfoProduct.s1yuqiweihNum.toDouble()) * 0.9
+        resultInfoProduct.yghzLv = resultInfoProduct.yghzSum / resultInfoProduct.fangkuanNum
+        resultInfoProduct.ygyingshou = resultInfoProduct.returnMoneyAll * (1 - resultInfoProduct.yghzLv) - resultInfoProduct.loanAmount
+        resultInfoProduct.ygyingshouSum = resultInfoProduct.ygyingshou *  resultInfoProduct.fangkuanNum
+
     }
     println("a:::$a")
 }
