@@ -16,7 +16,6 @@ public class WebController {
 
     @GetMapping("/index")
     public String index(){
-        System.out.println("ccccc");
         return "/home";
     }
 }
