@@ -58,14 +58,18 @@ public class ExcelOperation {
         this.mFileExcel = mFileExcel;
         this.fileCsv = fileCsv;
         this.fileResult = fileResult;
-//        ApplicationHome home = new ApplicationHome(getClass());
-//        File jarFile = home.getSource();
-//        fileMovetoStr = jarFile.getParentFile().toString();
-        try {
-            fileMovetoStr = ResourceUtils.getURL("classpath:").getPath() + "\\systemboth\\";
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        ApplicationHome home = new ApplicationHome(getClass());
+        File jarFile = home.getSource();
+        fileMovetoStr = jarFile.getParentFile().toString()+ "/systemboth/";
+        File moveDir = new File(fileMovetoStr);
+        if (!moveDir.exists()) {
+            moveDir.mkdirs();
         }
+//        try {
+//            fileMovetoStr = ResourceUtils.getURL("classpath:").getPath() + "\\systemboth\\";
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
         resourcemove = fileMovetoStr + "合成" + System.currentTimeMillis() + fileResult.substring(fileResult.lastIndexOf(".") - 1);
         excelmove = fileMovetoStr + System.currentTimeMillis() + mFileExcel.substring(mFileExcel.lastIndexOf(".") - 2);
         csvemove = fileMovetoStr + System.currentTimeMillis() + fileCsv.substring(fileCsv.lastIndexOf(".") - 13);

@@ -4,6 +4,7 @@ package com.nujnay.moment.server.service;
 import com.nujnay.moment.server.base.BasicResult;
 import com.nujnay.moment.server.controller.ExcelController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationHome;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +31,9 @@ public class DataServiceImpl {
         String fileName = file.getOriginalFilename();
         String filexcelName = filexcel.getOriginalFilename();
         try {
-            File filePath = new File(ResourceUtils.getURL("classpath:").getPath());
+            ApplicationHome home = new ApplicationHome(getClass());
+            File jarFile = home.getSource();
+            File filePath = new File(jarFile.getParentFile().toString());
             if (!filePath.exists()) {
                 filePath = new File("");
             }
