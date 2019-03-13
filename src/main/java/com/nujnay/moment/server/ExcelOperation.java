@@ -10,6 +10,7 @@ import de.siegmar.fastcsv.reader.CsvParser;
 import de.siegmar.fastcsv.reader.CsvReader;
 import de.siegmar.fastcsv.reader.CsvRow;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.springframework.boot.ApplicationHome;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
@@ -57,14 +58,12 @@ public class ExcelOperation {
         this.mFileExcel = mFileExcel;
         this.fileCsv = fileCsv;
         this.fileResult = fileResult;
-        try {
-            fileMovetoStr = ResourceUtils.getURL("classpath:").getPath() + "\\systemboth\\";
-            resourcemove = fileMovetoStr + "合成" + System.currentTimeMillis() + fileResult.substring(fileResult.lastIndexOf(".") - 1);
-            excelmove = fileMovetoStr + System.currentTimeMillis() + mFileExcel.substring(mFileExcel.lastIndexOf(".") - 2);
-            csvemove = fileMovetoStr + System.currentTimeMillis() + fileCsv.substring(fileCsv.lastIndexOf(".") - 13);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        ApplicationHome home = new ApplicationHome(getClass());
+        File jarFile = home.getSource();
+        fileMovetoStr = jarFile.getParentFile().toString();
+        resourcemove = fileMovetoStr + "合成" + System.currentTimeMillis() + fileResult.substring(fileResult.lastIndexOf(".") - 1);
+        excelmove = fileMovetoStr + System.currentTimeMillis() + mFileExcel.substring(mFileExcel.lastIndexOf(".") - 2);
+        csvemove = fileMovetoStr + System.currentTimeMillis() + fileCsv.substring(fileCsv.lastIndexOf(".") - 13);
     }
 
     public void exceldo() {
