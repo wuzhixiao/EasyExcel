@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+		<title></title>
+		<style>
+			body {
+				background: url(bj.gif) 0 0 no-repeat;
+				color: white;
+				background-size: 100%;
+			}
+			
+			.center {
+				width: 100%;
+				height: 100%;
+				text-align: center;
+			}
+			
+			.file {
+				position: relative;
+				width: 100%;
+				height: 100%;
+				right: 0;
+				top: 0;
+				opacity: 0;
+			}
+			
+			.button {
+				color: white;
+				background-color: #1890ff;
+				font-size: 1.3rem;
+				line-height: 2.2rem;
+				width: 7rem;
+				text-align: center;
+				height: 2.2rem;
+				border-radius: 5px;
+				font-weight: bolder;
+				margin: 0 auto;
+			}
+			
+			.button:hover {
+				cursor: default
+			}
+			
+			.btn {
+				width: 50%;
+				background-color: red;
+			}
+			
+			.box,
+			.ul-box {
+				width: 100%;
+				text-align: center;
+				border-collapse: collapse;
+			}
+			
+			.box td,
+			.ul-box td {
+				border: 1px solid #cccccc;
+			}
+		</style>
+	</head>
+
+	<body>
+		<table class="center">
+			<tr>
+				<td colspan="2">
+					<div class="button" id="csv">上传csv</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<table class="ul-box"></table>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding-top: 30px;" colspan="2">
+					<div class="button" id="excel">上传excel</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<table class="box"></table>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding-top: 50px;">
+					<div class="button" id="sub">提交</div>
+				</td>
+				<td style="padding-top: 50px;">
+					<div class="button" id="download">下载</div>
+				</td>
+			</tr>
+			<input type="file" class="file csv" accept=".csv" />
+			<input type="file" class="file excel" accept="*.xls,.xlsx" />
+		</table>
+	</body>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+		$("#csv").click(function() {
+			$(".csv").click();
+		})
+		let filecsv;
+		$(".csv").change(function() {
+			filecsv = $(this)[0].files[0];
+			console.log(filecsv);
+			var item = filecsv;
+			var abc = $("<tr><td class='showf'><p style='overflow:hidden;text-overflow:ellipsis; '>文件名: " + item.name + "</p>" +
+				"</td>" +
+				"<td><p>大小：" + (item.size / 1024).toFixed(2) + "KB</p></td></tr>"
+			);
+			$(".ul-box").html(abc);
+		})
+		let filexcel;
+		$("#excel").click(function() {
+			$(".excel").click();
+		})
+		$(".excel").change(function() {
+			filexcel = $(this)[0].files[0];
+			console.log(filexcel)
+			var item = filexcel;
+			var abc = $("<tr><td class='showf'><p style='overflow:hidden;text-overflow:ellipsis; '>文件名:" + item.name + "</p>" +
+				"</td>" +
+				"<td><p>大小：" + (item.size / 1024).toFixed(2) + "KB</p></td></tr>"
+			);
+			$(".box").html(abc);
+		})
+		$("#sub").click(function() {
+			let formData = new FormData();
+            formData.append("filecsv" , filecsv) ;
+            formData.append("filexcel" , filexcel) ;
+			// let data={
+			// 	"filecsv":filecsv,
+			// 	"filexcel":filexcel
+			// }
+			$.ajax({
+				type: "post",
+				url: "http://localhost:8089/upload",
+				data: formData,
+				contentType: false,
+				cache: false,
+				/**
+				 * 必须false才会避开jQuery对 formdata 的默认处理
+				 * XMLHttpRequest会对 formdata 进行正确的处理
+				 */
+				processData: false,
+				success: function(message) {
+					if(message > 0) {
+						alert("请求已提交！我们会尽快与您取得联系");
+					}
+				},
+				error: function(message) {
+					alert("提交数据失败！");
+				}
+			});
+		})
+		$("#download").click(function() {
+			let url = "http://localhost:8089/download";
+			window.location.href = url;
+		})
+	</script>
+
+</html>
