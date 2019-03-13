@@ -92,9 +92,4 @@ public class ExcelController {
         }
         return BasicResult.error(0, "下载失败");
     }
-
-    @GetMapping("/index")
-    public String index(){
-        return "home"; //当浏览器输入/index时，会返回 /templates/home.html页面
-    }
 }
