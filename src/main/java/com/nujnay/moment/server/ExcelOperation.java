@@ -358,6 +358,7 @@ public class ExcelOperation {
 //"订单表", file, listResultInfo,
 
         listResultInfoProduct = configureRevebyeAnalysis((ArrayList<ResultInfo>) listResultInfo);
+
         ExcelReaderFactory.writeExcel("订单表", file, listResultInfo, "用户表", listResultInfoUser,
                 "新用户转化分析", listResultInfoNewUser,"产品配置营收分析",listResultInfoProduct);
 

@@ -123,8 +123,9 @@ fun configureRevebyeAnalysis(orderlist: ArrayList<ResultInfo>): ArrayList<Result
         resultInfoProduct.ygyingshouSum = resultInfoProduct.ygyingshou * resultInfoProduct.fangkuanNum
         finalArray.add(resultInfoProduct)
     }
+    println("a:::${finalArray.size}")
     return finalArray
-    println("a:::$a")
+
 }
 
 fun HashMap<ConfigureRevenueAnalysisKey, ArrayList<ResultInfo>>.createOne(copyNew: String): HashMap<ConfigureRevenueAnalysisKey, ArrayList<ResultInfo>> {
