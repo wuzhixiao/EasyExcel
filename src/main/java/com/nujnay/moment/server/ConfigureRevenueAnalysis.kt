@@ -4,8 +4,9 @@ import com.nujnay.moment.server.ExcelOperation.dateStrCompare
 import java.awt.PrintGraphics
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
-fun configureRevebyeAnalysis(orderlist: ArrayList<ResultInfo>) {
+fun configureRevebyeAnalysis(orderlist: ArrayList<ResultInfo>): ArrayList<ResultInfoProduct> {
     println("a:::${orderlist.size}")
     val firstHash = HashMap<ConfigureRevenueAnalysisKey, ArrayList<ResultInfo>>()
     for (resultinfo in orderlist) {
@@ -27,6 +28,8 @@ fun configureRevebyeAnalysis(orderlist: ArrayList<ResultInfo>) {
             .createOne("loanAmount")
             .createOne("returnMoneyAll")
     var a = 0
+    var finalArray = ArrayList<ResultInfoProduct>()
+
     for (entry in finalResult.entries) {
         val key = entry.key
         val resultInfoProduct = ResultInfoProduct()
@@ -113,9 +116,10 @@ fun configureRevebyeAnalysis(orderlist: ArrayList<ResultInfo>) {
         resultInfoProduct.yghzSum = resultInfoProduct.yuqiweihNum.toDouble() * 0.6 + (resultInfoProduct.yuqiweihNum.toDouble() - resultInfoProduct.s1yuqiweihNum.toDouble()) * 0.9
         resultInfoProduct.yghzLv = resultInfoProduct.yghzSum / resultInfoProduct.fangkuanNum
         resultInfoProduct.ygyingshou = resultInfoProduct.returnMoneyAll * (1 - resultInfoProduct.yghzLv) - resultInfoProduct.loanAmount
-        resultInfoProduct.ygyingshouSum = resultInfoProduct.ygyingshou *  resultInfoProduct.fangkuanNum
-
+        resultInfoProduct.ygyingshouSum = resultInfoProduct.ygyingshou * resultInfoProduct.fangkuanNum
+        finalArray.add(resultInfoProduct)
     }
+    return finalArray
     println("a:::$a")
 }
 
