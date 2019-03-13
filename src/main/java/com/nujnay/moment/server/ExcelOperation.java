@@ -23,25 +23,24 @@ import java.util.HashMap;
 import java.util.List;
 
 
-
 public class ExcelOperation {
-    static List<LoanInfo> listLoanInfo = new ArrayList<>();
-    static List<ResultInfo> listResultInfo = new ArrayList<>();
-    static List<ResultInfo> listResultInfo2 = new ArrayList<>();
-    static List<ResultInfoUser> listResultInfoUser = new ArrayList<>();
-    static List<ResultInfoNewUser> listResultInfoNewUser = new ArrayList<>();
-    static List<ResultInfoProduct> listResultInfoProduct = new ArrayList<>();
+    List<LoanInfo> listLoanInfo = new ArrayList<>();
+    List<ResultInfo> listResultInfo = new ArrayList<>();
+    List<ResultInfo> listResultInfo2 = new ArrayList<>();
+    List<ResultInfoUser> listResultInfoUser = new ArrayList<>();
+    List<ResultInfoNewUser> listResultInfoNewUser = new ArrayList<>();
+    List<ResultInfoProduct> listResultInfoProduct = new ArrayList<>();
 
-    static String mFileExcel = "";
-    static String fileCsv = "";
-    static String fileResult = "";
-    static String fileMovetoStr = "";
-    static String resourcemove = "";
-    static String excelmove = "";
-    static String csvemove = "";
-    static File file;
-    static File fileloaninfo;
-    static File filecsv;
+    String mFileExcel = "";
+    String fileCsv = "";
+    String fileResult = "";
+    String fileMovetoStr = "";
+    String resourcemove = "";
+    String excelmove = "";
+    String csvemove = "";
+    File file;
+    File fileloaninfo;
+    File filecsv;
 
     public static void main(String str[]) {
 //        try {
@@ -63,14 +62,12 @@ public class ExcelOperation {
             resourcemove = fileMovetoStr + "合成" + System.currentTimeMillis() + fileResult.substring(fileResult.lastIndexOf(".") - 1);
             excelmove = fileMovetoStr + System.currentTimeMillis() + mFileExcel.substring(mFileExcel.lastIndexOf(".") - 2);
             csvemove = fileMovetoStr + System.currentTimeMillis() + fileCsv.substring(fileCsv.lastIndexOf(".") - 13);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
-    public static void exceldo() {
+    public void exceldo() {
         try {
             file = new File(fileResult);
             filecsv = new File(fileCsv);
@@ -111,7 +108,7 @@ public class ExcelOperation {
 
 
     //F:\Excel\loan-info.xlsm
-    public static void excelReadOperation() throws IOException {
+    public void excelReadOperation() throws IOException {
 //        InputStream inputStream = getInputStream();java.lang.NumberFormatException: For input string: "8392a4e8eb3433ff"
 
 
@@ -223,7 +220,7 @@ public class ExcelOperation {
         }
     }
 
-    public static void excelWriteOperation() throws IOException {
+    public void excelWriteOperation() throws IOException {
 //        InputStream inputStream = getInputStream();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -360,7 +357,7 @@ public class ExcelOperation {
         listResultInfoProduct = configureRevenueAnalysis.configureRevebyeAnalysis((ArrayList<ResultInfo>) listResultInfo);
 
         ExcelReaderFactory.writeExcel("订单表", file, listResultInfo, "用户表", listResultInfoUser,
-                "新用户转化分析", listResultInfoNewUser,"产品配置营收分析",listResultInfoProduct);
+                "新用户转化分析", listResultInfoNewUser, "产品配置营收分析", listResultInfoProduct);
 
     }
 
@@ -376,7 +373,7 @@ public class ExcelOperation {
     }
 
 
-    public static void csvReadOperation1() throws IOException {
+    public void csvReadOperation1() throws IOException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
         CsvReader csvReader = new CsvReader();
         CsvContainer csv = csvReader.read(filecsv, StandardCharsets.UTF_8);
