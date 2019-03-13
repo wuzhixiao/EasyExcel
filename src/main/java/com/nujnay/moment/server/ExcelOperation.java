@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.nujnay.moment.server.ConfigureRevenueAnalysisKt.configureRevebyeAnalysis;
+
 
 public class ExcelOperation {
     static List<LoanInfo> listLoanInfo = new ArrayList<>();
@@ -356,8 +356,8 @@ public class ExcelOperation {
 
 
 //"订单表", file, listResultInfo,
-
-        listResultInfoProduct = configureRevebyeAnalysis((ArrayList<ResultInfo>) listResultInfo);
+        ConfigureRevenueAnalysis configureRevenueAnalysis = new ConfigureRevenueAnalysis();
+        listResultInfoProduct = configureRevenueAnalysis.configureRevebyeAnalysis((ArrayList<ResultInfo>) listResultInfo);
 
         ExcelReaderFactory.writeExcel("订单表", file, listResultInfo, "用户表", listResultInfoUser,
                 "新用户转化分析", listResultInfoNewUser,"产品配置营收分析",listResultInfoProduct);
