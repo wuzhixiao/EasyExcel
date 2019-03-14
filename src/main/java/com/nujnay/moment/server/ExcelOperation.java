@@ -60,7 +60,7 @@ public class ExcelOperation {
         this.fileResult = fileResult;
         ApplicationHome home = new ApplicationHome(getClass());
         File jarFile = home.getSource();
-        fileMovetoStr = jarFile.getParentFile().toString()+ "/systemboth/";
+        fileMovetoStr = jarFile.getParentFile().toString() + "/systemboth/";
         File moveDir = new File(fileMovetoStr);
         if (!moveDir.exists()) {
             moveDir.mkdirs();
@@ -119,7 +119,7 @@ public class ExcelOperation {
     public void excelReadOperation() throws IOException {
 //        InputStream inputStream = getInputStream();java.lang.NumberFormatException: For input string: "8392a4e8eb3433ff"
 
-
+        System.out.println(fileloaninfo.getAbsolutePath());
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(fileloaninfo));
 
         listLoanInfo = ExcelReaderFactory.readExcel(bis, LoanInfo.class);
@@ -252,6 +252,7 @@ public class ExcelOperation {
         for (int j = 0; j < listResultInfoNewUser.size(); j++) {
             long newUserApplication = 0;
             long newUserLoanNum = 0;
+            System.out.println("size::" + listResultInfo.size());
             for (ResultInfo resultInfo : listResultInfo) {
                 if (j == 0) {
                     if (resultInfoUserInfoHashMap.containsKey(resultInfo.getUserId())) {
@@ -305,30 +306,25 @@ public class ExcelOperation {
                 List<String> userIdList = new ArrayList<>();
                 boolean isHasUserId = false;
                 //新用户转化
+                System.out.println("++++");
+                System.out.println(resultInfo.getUserId());
+                System.out.println("++++");
                 if (dateStrCompare(resultInfo.getApplicationDate(), listResultInfoNewUser.get(j).getRegistDate()) == 2 &&
                         dateStrCompare(resultInfo.getApplicationDate(), chageDate(resultInfo.getRegistTime())) == 2) {
-
-
                     if (userIdList.size() > 0) {
-
                         for (int k = 0; k < userIdList.size(); k++) {
                             if (userIdList.get(k).equals(resultInfo.getUserId())) {
                                 isHasUserId = true;
                             }
                         }
-
-
                         if (!true) {
                             userIdList.add(resultInfo.getUserId());
                             newUserApplication++;
-
                             if (dateStrCompare(resultInfo.getApplicationDate(), resultInfo.getLoanDate()) == 2) {
                                 newUserLoanNum++;
                             }
                         }
                         isHasUserId = false;
-
-
                     } else {
                         newUserApplication++;
                         userIdList.add(resultInfo.getUserId());
@@ -336,7 +332,6 @@ public class ExcelOperation {
                             newUserLoanNum++;
                         }
                     }
-
                 }
 //                System.out.println(newUserApplication + "  " + " newUserLoanNum  " + newUserLoanNum + " " + listResultInfoNewUser.get(j).getRegistPeopleNum());
                 listResultInfoNewUser.get(j).setSqNum(newUserApplication + "");
@@ -400,7 +395,7 @@ public class ExcelOperation {
                 if (i == 0 && row.getOriginalLineNumber() > 1) {
                     ResultInfoUser resultInfoUser = new ResultInfoUser();
                     resultInfoUser.setUserAccount(row.getField(0));
-                    resultInfoUser.setRegistTime(row.getField(3));
+                    resultInfoUser.setRegistTime(row.getField(3).replace("-", "/"));
 //                if (simpleDateFormat.format(row.getField(3)) != null)simpleDateFormat.format(
                     resultInfoUser.setRegistDate(row.getField(3));
                     resultInfoUser.setRegistFrom(row.getField(11));
@@ -410,7 +405,7 @@ public class ExcelOperation {
 
                     ResultInfoNewUser resultInfoNewUser = new ResultInfoNewUser();
                     resultInfoNewUser.setRegistTime(row.getField(3));
-                    resultInfoNewUser.setRegistDate(chageDate(row.getField(3)));
+                    resultInfoNewUser.setRegistDate(chageDate(row.getField(3).replace("-", "/")));
                     resultInfoNewUser.setRegistPeopleNum(csv.getRows().size() + "");
 
                     listResultInfoNewUser.add(resultInfoNewUser);
@@ -421,7 +416,13 @@ public class ExcelOperation {
                         resultInfo.setUserId(row.getField(0));
                         resultInfo.setUserPhone(row.getField(1));
                         resultInfo.setUserName(row.getField(2));
-                        resultInfo.setRegistTime(row.getField(3));
+                        if (row.getField(3) == null) {
+                            System.out.println("null");
+                        }
+                        if (row.getField(3).equals("")) {
+                            System.out.println("empty");
+                        }
+                        resultInfo.setRegistTime(row.getField(3).replace("-", "/"));
                         resultInfo.setUserlevel(row.getField(4));
                         resultInfo.setAppName(row.getField(10));
                         listResultInfo2.add(resultInfo);
@@ -485,11 +486,12 @@ public class ExcelOperation {
     }
 
     private static String chageDate(String date) {
-        DateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
         try {
-            Date s = simpleDateFormat.parse(date);
+            String dateNoDash = date.replace("-", "/");
+            DateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            Date s = simpleDateFormat.parse(dateNoDash);
             return simpleDateFormat.format(s);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
